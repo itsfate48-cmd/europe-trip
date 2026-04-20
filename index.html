@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Europe Trip 2026 🌍</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07070e;
+    --bg2: #0d0d1e;
+    --bg3: #111128;
+    --card: #101022;
+    --border: rgba(255,255,255,0.07);
+    --gold: #f8a820;
+    --gold2: #ff7043;
+    --green: #22d47a;
+    --red: #ff6b6b;
+    --blue: #818cf8;
+    --text: #e2e2f0;
+    --text2: #9090b0;
+    --text3: #4a4a6a;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; }
+
+  /* ── HEADER ── */
+  .hdr {
+    background: linear-gradient(160deg, var(--bg2) 0%, var(--bg3) 100%);
+    border-bottom: 1px solid rgba(248,168,32,0.12);
+    padding: 24px 20px 0;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .trip-title { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: var(--gold); letter-spacing: -.5px; }
+  .trip-sub { font-size: 12px; color: var(--text3); margin: 3px 0 16px; }
+  .sum-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .sum-card { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 9px 13px; }
+  .sum-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 3px; }
+  .sum-val { font-family: var(--font-head); font-size: 17px; font-weight: 700; }
+  .c-w { color: var(--text); } .c-g { color: var(--green); } .c-r { color: var(--red); }
+  .prog-wrap { padding-bottom: 0; }
+  .prog-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+  .prog-bar { height: 5px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; margin-bottom: 16px; }
+  .prog-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold2)); border-radius: 3px; }
+
+  /* ── TABS ── */
+  .tabs-wrap { background: var(--bg2); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 99; }
+  .tabs-wrap::-webkit-scrollbar { display: none; }
+  .tabs-row { display: flex; padding: 0 10px; white-space: nowrap; }
+  .tab { padding: 11px 13px; font-size: 12.5px; color: var(--text3); cursor: pointer; border: none; border-bottom: 2px solid transparent; background: none; font-family: var(--font-body); display: inline-flex; align-items: center; gap: 5px; transition: all .2s; white-space: nowrap; }
+  .tab:hover { color: var(--text2); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 500; }
+
+  /* ── CONTENT ── */
+  .content { padding: 18px 16px 40px; max-width: 720px; margin: 0 auto; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── DEST HEADER ── */
+  .dest-hdr { background: linear-gradient(135deg, var(--bg3), #16163a); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-bottom: 14px; }
+  .dest-top { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .dest-flag { font-size: 30px; }
+  .dest-city { font-family: var(--font-head); font-size: 22px; font-weight: 800; letter-spacing: -.5px; }
+  .dest-info { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .dest-nums { display: flex; gap: 10px; }
+  .dn { flex: 1; background: rgba(255,255,255,0.04); border-radius: 8px; padding: 9px 12px; }
+  .dn-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .7px; margin-bottom: 2px; }
+  .dn-val { font-family: var(--font-head); font-size: 16px; font-weight: 700; }
+
+  /* ── SECTION ── */
+  .sec { margin-bottom: 16px; }
+  .sec-title { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 9px; padding-left: 2px; }
+
+  /* ── ITEM CARD ── */
+  .item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 7px; display: flex; align-items: center; gap: 12px; }
+  .item-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .ic-stay { background: rgba(99,102,241,0.14); }
+  .ic-flight { background: rgba(14,165,233,0.14); }
+  .ic-transport { background: rgba(168,85,247,0.14); }
+  .ic-food { background: rgba(239,68,68,0.14); }
+  .ic-fun { background: rgba(248,168,32,0.14); }
+  .ic-event { background: rgba(34,212,122,0.14); }
+  .ic-activity { background: rgba(34,212,122,0.14); }
+  .ic-gear { background: rgba(107,114,128,0.14); }
+  .ic-shopping { background: rgba(236,72,153,0.14); }
+  .item-body { flex: 1; }
+  .item-name { font-size: 13.5px; font-weight: 500; color: #d0d0e8; }
+  .item-detail { font-size: 11.5px; color: var(--text3); margin-top: 2px; }
+  .item-owing { font-size: 11.5px; color: var(--gold); margin-top: 2px; }
+  .item-right { text-align: right; flex-shrink: 0; }
+  .item-cost { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .badge { font-size: 9.5px; font-weight: 600; letter-spacing: .4px; padding: 2px 7px; border-radius: 20px; text-transform: uppercase; }
+  .b-booked { background: rgba(34,212,122,0.13); color: var(--green); }
+  .b-pay_venue { background: rgba(248,168,32,0.13); color: var(--gold); }
+  .b-half { background: rgba(248,168,32,0.13); color: var(--gold); }
+  .b-todo { background: rgba(255,107,107,0.13); color: var(--red); }
+  .b-spend { background: rgba(129,140,248,0.12); color: var(--blue); }
+  .b-event { background: rgba(34,212,122,0.13); color: var(--green); }
+
+  /* ── OVERVIEW ── */
+  .warn-box { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.18); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; }
+  .warn-title { font-size: 12px; font-weight: 600; color: var(--red); margin-bottom: 6px; }
+  .warn-item { font-size: 12px; color: #c0c0d8; margin-top: 4px; cursor: pointer; transition: color .15s; }
+  .warn-item:hover { color: var(--text); }
+  .ov-title { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .ov-row { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 13px 14px; margin-bottom: 7px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background .2s; }
+  .ov-row:hover { background: #16162e; }
+  .ov-flag { font-size: 22px; flex-shrink: 0; }
+  .ov-info { flex: 1; }
+  .ov-city { font-size: 13.5px; font-weight: 500; color: #d0d0e8; }
+  .ov-dates { font-size: 11.5px; color: var(--text3); margin-top: 2px; }
+  .ov-right { text-align: right; }
+  .ov-total { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--text); }
+  .ov-paid { font-size: 11px; color: var(--green); margin-top: 2px; }
+  .mini-bar { width: 56px; height: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; margin-top: 5px; margin-left: auto; }
+  .mini-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold2)); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="trip-title">🌍 Europe Trip 2026</div>
+  <div class="trip-sub">27 Jun – 10 Aug &nbsp;·&nbsp; 45 Days &nbsp;·&nbsp; 17 Destinations</div>
+  <div class="sum-row">
+    <div class="sum-card"><div class="sum-label">Total</div><div class="sum-val c-w">$13,093</div></div>
+    <div class="sum-card"><div class="sum-label">Paid</div><div class="sum-val c-g">$6,640</div></div>
+    <div class="sum-card"><div class="sum-label">Still Owed</div><div class="sum-val c-r">$6,453</div></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-meta"><span>Payment Progress</span><span>51% paid</span></div>
+    <div class="prog-bar"><div class="prog-fill" style="width:51%"></div></div>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs-row" id="tabs"></div>
+</div>
+
+<div class="content" id="content"></div>
+
+<script>
+const DESTS = [
+  {
+    id:"overview", label:"Overview", emoji:"🗺️", isOverview:true
+  },
+  {
+    id:"departure", city:"Departure", country:"Sydney, Australia", emoji:"✈️", dates:"27 Jun",
+    total:1246, paid:1246,
+    items:[
+      {type:"flight", name:"Sydney → Lisbon", detail:"27 Jun – Direct flight", cost:1246, paidAmt:1246, status:"booked"},
+    ]
+  },
+  {
+    id:"lisbon", city:"Lisbon", country:"Portugal", emoji:"🇵🇹", dates:"28 Jun – 2 Jul",
+    total:1027, paid:347,
+    items:[
+      {type:"stay", name:"Novotel Lisboa", detail:"28–29 Jun", cost:130, paidAmt:0, status:"pay_venue"},
+      {type:"stay", name:"Lisbon Chillout Hostel", detail:"29 Jun – 2 Jul", cost:475, paidAmt:158, status:"half"},
+      {type:"flight", name:"Lisbon → Palma", detail:"9:30pm – 12:30am", cost:189, paidAmt:189, status:"booked"},
+      {type:"food", name:"Food Budget", cost:250, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Drinks + Smokes", cost:250, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:50, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"palma", city:"Palma", country:"Spain", emoji:"🇪🇸", dates:"2–5 Jul",
+    total:530, paid:260,
+    items:[
+      {type:"stay", name:"Hotel", detail:"Accommodation", cost:557, paidAmt:185, status:"half"},
+      {type:"flight", name:"Palma → Barcelona", detail:"7:30am – 8:25am", cost:75, paidAmt:75, status:"booked"},
+      {type:"transport", name:"Rent a Car", cost:50, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:120, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Drinks + Smokes", cost:100, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"barcelona", city:"Barcelona", country:"Spain", emoji:"🇪🇸", dates:"5–7 Jul",
+    total:297.25, paid:107,
+    items:[
+      {type:"stay", name:"Hotel", detail:"For 4", cost:427.50, paidAmt:107, status:"half"},
+      {type:"transport", name:"Rent a Car", detail:"5–9 Jul", cost:161, paidAmt:40.25, status:"half"},
+      {type:"food", name:"Food Budget", cost:80, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Drinks", cost:50, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:20, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"pamplona", city:"Pamplona", country:"Spain", emoji:"🇪🇸", dates:"7–9 Jul",
+    total:428, paid:280,
+    items:[
+      {type:"stay", name:"AirBnB", detail:"For 3 – Half Paid", cost:728.42, paidAmt:248, status:"half"},
+      {type:"flight", name:"Flights", cost:155, paidAmt:155, status:"booked"},
+      {type:"event", name:"Running of the Bulls 🐂", detail:"San Fermín Festival!", cost:0, paidAmt:0, status:"event"},
+      {type:"food", name:"Food Budget", cost:100, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Drinks + Smokes", cost:50, paidAmt:0, status:"spend"},
+      {type:"shopping", name:"Clothes", cost:30, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"amsterdam", city:"Amsterdam", country:"Netherlands", emoji:"🇳🇱", dates:"9–14 Jul",
+    total:1753, paid:688.75,
+    items:[
+      {type:"stay", name:"Ibis Amsterdam West", detail:"9–10 Jul (for 2)", cost:110, paidAmt:0, status:"pay_venue"},
+      {type:"stay", name:"Ibis Amsterdam West", detail:"13–14 Jul (for 2)", cost:110, paidAmt:0, status:"pay_venue"},
+      {type:"event", name:"Awakenings Festival 🎵", detail:"Fully Paid", cost:420, paidAmt:420, status:"booked"},
+      {type:"flight", name:"Amsterdam → Prague", detail:"7:20am – 8:50am", cost:268.75, paidAmt:268.75, status:"booked"},
+      {type:"gear", name:"Camping Gear", cost:200, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Drugs", cost:200, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:240, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Smokes + Drinks", cost:250, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:40, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Train", cost:25, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"prague", city:"Prague", country:"Czech Republic", emoji:"🇨🇿", dates:"14–16 Jul",
+    total:394, paid:94,
+    items:[
+      {type:"stay", name:"Prague Dream Hostel", cost:188, paidAmt:94, status:"half"},
+      {type:"transport", name:"Night Train Prague → Berlin", cost:80, paidAmt:0, status:"todo"},
+      {type:"food", name:"Food Budget", cost:100, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Drinks + Smokes", cost:100, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:20, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"berlin", city:"Berlin", country:"Germany", emoji:"🇩🇪", dates:"16–19 Jul",
+    total:921.5, paid:284,
+    items:[
+      {type:"stay", name:"Novotel Berlin Mitte", cost:395, paidAmt:0, status:"booked"},
+      {type:"flight", name:"Berlin → Rome", cost:284, paidAmt:284, status:"booked"},
+      {type:"fun", name:"Drugs + Drinks", cost:250, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:120, paidAmt:0, status:"spend"},
+      {type:"event", name:"Club Entries", cost:50, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:20, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"rome", city:"Rome", country:"Italy", emoji:"🇮🇹", dates:"19–21 Jul",
+    total:453, paid:150,
+    items:[
+      {type:"stay", name:"Generator Rome", cost:300, paidAmt:150, status:"half"},
+      {type:"transport", name:"Train Rome → Amalfi", cost:53, paidAmt:0, status:"todo"},
+      {type:"activity", name:"Tours", cost:50, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:120, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Drinks", cost:60, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:20, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"amalfi", city:"Amalfi", country:"Italy", emoji:"🇮🇹", dates:"21–25 Jul",
+    total:1306, paid:602,
+    items:[
+      {type:"stay", name:"AirBnB Amalfi", detail:"For 4 – Half Paid", cost:2200, paidAmt:275, status:"half"},
+      {type:"flight", name:"Naples → Zakynthos", cost:327, paidAmt:327, status:"booked"},
+      {type:"transport", name:"Ferry", cost:59, paidAmt:0, status:"todo"},
+      {type:"food", name:"Food Budget", cost:200, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Drinks", cost:100, paidAmt:0, status:"spend"},
+      {type:"event", name:"Club Entries", cost:50, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:20, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"zakynthos", city:"Zakynthos", country:"Greece", emoji:"🇬🇷", dates:"25–27 Jul",
+    total:591.5, paid:341.5,
+    items:[
+      {type:"stay", name:"AirBnB", detail:"For 2", cost:295, paidAmt:150, status:"half"},
+      {type:"flight", name:"Zakynthos → Athens", cost:191.5, paidAmt:191.5, status:"booked"},
+      {type:"fun", name:"Drugs + Drinks", cost:100, paidAmt:0, status:"spend"},
+      {type:"event", name:"Club Entries", cost:50, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:80, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:20, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"athens1", city:"Athens", country:"Greece", emoji:"🇬🇷", dates:"27–29 Jul",
+    total:438, paid:0,
+    items:[
+      {type:"stay", name:"Novotel Athens", cost:237, paidAmt:0, status:"booked"},
+      {type:"transport", name:"Ferry Athens → Paros", cost:120, paidAmt:0, status:"todo"},
+      {type:"fun", name:"Drugs + Drinks", cost:150, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:30, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:20, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"paros", city:"Paros", country:"Greece", emoji:"🇬🇷", dates:"29–31 Jul",
+    total:549.5, paid:149.5,
+    items:[
+      {type:"stay", name:"AirBnB", detail:"For 2", cost:300, paidAmt:149.5, status:"half"},
+      {type:"transport", name:"Ferry Paros → Crete", cost:120, paidAmt:0, status:"todo"},
+      {type:"activity", name:"ATV", cost:100, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Drinks", cost:100, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:60, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:20, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"ios", city:"Ios", country:"Greece", emoji:"🇬🇷", dates:"31 Jul – 3 Aug",
+    total:390, paid:150,
+    items:[
+      {type:"stay", name:"Far Out Beach Club", detail:"For 2 – Booked", cost:331, paidAmt:150, status:"half"},
+      {type:"fun", name:"Drinks", cost:150, paidAmt:0, status:"spend"},
+      {type:"activity", name:"ATV", cost:100, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:90, paidAmt:0, status:"spend"},
+      {type:"event", name:"Club Entries", cost:50, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"athens2", city:"Athens II", country:"Greece", emoji:"🇬🇷", dates:"3–4 Aug",
+    total:595.7, paid:420.7,
+    items:[
+      {type:"transport", name:"Ferry Ios → Athens", cost:151, paidAmt:151, status:"booked"},
+      {type:"stay", name:"Ibis Styles Athens", cost:100, paidAmt:0, status:"booked"},
+      {type:"flight", name:"Athens → Amman", cost:269.7, paidAmt:269.7, status:"booked"},
+      {type:"transport", name:"Taxis", cost:50, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:25, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"amman", city:"Amman", country:"Jordan", emoji:"🇯🇴", dates:"4–7 Aug",
+    total:863, paid:590,
+    items:[
+      {type:"flight", name:"Amman → Cairo", cost:327, paidAmt:327, status:"booked"},
+      {type:"stay", name:"Movenpick Amman", detail:"$45 still owing", cost:178, paidAmt:133, status:"half"},
+      {type:"stay", name:"Mansi Residence Petra", cost:130, paidAmt:130, status:"booked"},
+      {type:"transport", name:"Coaches Amman → Petra", cost:98, paidAmt:0, status:"todo"},
+      {type:"activity", name:"Tours", cost:50, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:80, paidAmt:0, status:"spend"},
+    ]
+  },
+  {
+    id:"cairo", city:"Cairo", country:"Egypt", emoji:"🇪🇬", dates:"7–10 Aug",
+    total:1310, paid:930,
+    items:[
+      {type:"stay", name:"AirBnB Cairo", cost:125, paidAmt:125, status:"booked"},
+      {type:"flight", name:"Cairo → Sydney 🏠", detail:"Return Home!", cost:805, paidAmt:805, status:"booked"},
+      {type:"activity", name:"Tours + Attractions", cost:150, paidAmt:0, status:"spend"},
+      {type:"food", name:"Food Budget", cost:100, paidAmt:0, status:"spend"},
+      {type:"transport", name:"Taxis", cost:80, paidAmt:0, status:"spend"},
+      {type:"fun", name:"Smokes + Drinks", cost:50, paidAmt:0, status:"spend"},
+    ]
+  },
+];
+
+const ICONS = {stay:"🏨",flight:"✈️",transport:"🚌",food:"🍽️",fun:"🍹",event:"🎉",activity:"🎯",gear:"🎒",shopping:"🛍️"};
+const BADGE = {booked:"Booked ✓",pay_venue:"Pay on Arrival",half:"Half Paid",todo:"To Book",spend:"Spending",event:"Event"};
+const BADGE_CLASS = {booked:"b-booked",pay_venue:"b-pay_venue",half:"b-half",todo:"b-todo",spend:"b-spend",event:"b-event"};
+
+let activeTab = "overview";
+
+function fmt(n) {
+  if (n === 0) return "—";
+  return "$" + Number(n).toLocaleString('en-AU', {minimumFractionDigits:0,maximumFractionDigits:2});
+}
+
+function renderOverview() {
+  const real = DESTS.filter(d => !d.isOverview);
+  const needsAction = [];
+  real.forEach(d => {
+    d.items && d.items.filter(i => i.status === "todo").forEach(it => {
+      needsAction.push({dest: d, item: it});
+    });
+  });
+
+  let html = "";
+
+  if (needsAction.length) {
+    html += `<div class="warn-box">
+      <div class="warn-title">⚠️ Still Needs Booking</div>`;
+    needsAction.forEach(({dest, item}) => {
+      html += `<div class="warn-item" onclick="switchTab('${dest.id}')">${dest.emoji} ${dest.city} – ${item.name}</div>`;
+    });
+    html += `</div>`;
+  }
+
+  html += `<div class="ov-title">All Destinations</div>`;
+  real.forEach(d => {
+    const pct = Math.min(100, Math.round((d.paid / d.total) * 100));
+    html += `<div class="ov-row" onclick="switchTab('${d.id}')">
+      <span class="ov-flag">${d.emoji}</span>
+      <div class="ov-info">
+        <div class="ov-city">${d.city}</div>
+        <div class="ov-dates">${d.country} · ${d.dates}</div>
+      </div>
+      <div class="ov-right">
+        <div class="ov-total">${fmt(d.total)}</div>
+        <div class="ov-paid">${fmt(d.paid)} paid</div>
+        <div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div>
+      </div>
+    </div>`;
+  });
+  return html;
+}
+
+function renderDest(d) {
+  const rem = d.total - d.paid;
+  const pct = Math.min(100, Math.round((d.paid / d.total) * 100));
+  const bookings = d.items.filter(i => ["booked","pay_venue","half","todo"].includes(i.status));
+  const events   = d.items.filter(i => i.status === "event");
+  const spending = d.items.filter(i => i.status === "spend");
+
+  let html = `<div class="dest-hdr">
+    <div class="dest-top">
+      <span class="dest-flag">${d.emoji}</span>
+      <div>
+        <div class="dest-city">${d.city}</div>
+        <div class="dest-info">${d.country} · ${d.dates}</div>
+      </div>
+    </div>
+    <div class="dest-nums">
+      <div class="dn"><div class="dn-label">Total</div><div class="dn-val c-w">${fmt(d.total)}</div></div>
+      <div class="dn"><div class="dn-label">Paid</div><div class="dn-val c-g">${fmt(d.paid)}</div></div>
+      <div class="dn"><div class="dn-label">Owed</div><div class="dn-val c-r">${fmt(rem)}</div></div>
+    </div>
+    <div style="margin-top:14px">
+      <div class="prog-meta"><span>Paid</span><span>${pct}%</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>
+  </div>`;
+
+  function itemsHtml(items) {
+    return items.map(it => {
+      const icon = ICONS[it.type] || "📌";
+      const label = BADGE[it.status] || it.status;
+      const cls = BADGE_CLASS[it.status] || "";
+      const owing = it.paidAmt > 0 && it.paidAmt < it.cost
+        ? `<div class="item-owing">${fmt(it.paidAmt)} paid · ${fmt(it.cost - it.paidAmt)} owing</div>` : "";
+      const costHtml = it.cost > 0 ? `<div class="item-cost">${fmt(it.cost)}</div>` : "";
+      return `<div class="item">
+        <div class="item-icon ic-${it.type}">${icon}</div>
+        <div class="item-body">
+          <div class="item-name">${it.name}</div>
+          ${it.detail ? `<div class="item-detail">${it.detail}</div>` : ""}
+          ${owing}
+        </div>
+        <div class="item-right">
+          ${costHtml}
+          <span class="badge ${cls}">${label}</span>
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  if (bookings.length) html += `<div class="sec"><div class="sec-title">Bookings & Transport</div>${itemsHtml(bookings)}</div>`;
+  if (events.length)   html += `<div class="sec"><div class="sec-title">Events</div>${itemsHtml(events)}</div>`;
+  if (spending.length) html += `<div class="sec"><div class="sec-title">Spending Budget</div>${itemsHtml(spending)}</div>`;
+
+  return html;
+}
+
+function switchTab(id) {
+  activeTab = id;
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.id === id));
+  const dest = DESTS.find(d => d.id === id);
+  document.getElementById("content").innerHTML = dest.isOverview ? renderOverview() : renderDest(dest);
+  // Scroll tab into view
+  const activeEl = document.querySelector(".tab.active");
+  if (activeEl) activeEl.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+}
+
+function init() {
+  const tabsEl = document.getElementById("tabs");
+  DESTS.forEach(d => {
+    const btn = document.createElement("button");
+    btn.className = "tab" + (d.id === activeTab ? " active" : "");
+    btn.dataset.id = d.id;
+    btn.innerHTML = `<span>${d.emoji}</span>${d.city || d.label}`;
+    btn.onclick = () => switchTab(d.id);
+    tabsEl.appendChild(btn);
+  });
+  switchTab(activeTab);
+}
+
+init();
+</script>
+</body>
+</html>
